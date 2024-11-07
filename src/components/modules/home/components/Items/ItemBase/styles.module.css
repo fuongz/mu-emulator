@@ -1,0 +1,8 @@
+.item {
+  @apply absolute;
+  z-index: 3;
+}
+
+.item--is-active {
+  z-index: 1;
+}

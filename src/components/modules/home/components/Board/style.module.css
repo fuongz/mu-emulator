@@ -1,0 +1,4 @@
+.boardItem {
+  @apply bg-zinc-900 w-full h-[60px];
+  /* z-index: 2; */
+}
