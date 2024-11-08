@@ -1,57 +1,54 @@
-"use client";
+'use client'
 
-import { useItem } from "@/hooks";
-import { MouseEvent, useEffect, useState } from "react";
-import styles from "./styles.module.css";
-import type { Item } from "@/constants/items";
+import { useItem } from '@/hooks'
+import { MouseEvent } from 'react'
+import styles from './styles.module.css'
+import type { Item } from '@/constants/items'
+import { useBoardStore } from '@/stores'
 
-interface Props {}
+interface Props {
+  item: Item
+  locked?: boolean
+}
 
-function ItemBase({ x, y, width, height, className, name }: Props & Item) {
+function ItemBase({ item, locked }: Props) {
+  const { x, y, width, height, uniqueName, _id, id } = item
+  const { activeItem, pickItem } = useBoardStore()
   const { position, size } = useItem({
     x,
     y,
     width: width || 5,
     height: height || 3,
-  });
-  const [activePosition, setActivePosition] = useState({ left: "0", top: "0" });
-  const [active, setActive] = useState(false);
-
-  const _initMouseMove = (state: Boolean = true) => {
-    if (state === true) {
-      document.addEventListener("mousemove", (e) => {
-        setActivePosition({
-          top: e.pageY + "px",
-          left: e.pageX - 508 + "px",
-        });
-      });
-    }
-  };
-
-  useEffect(() => {
-    _initMouseMove();
-  }, []);
+  })
 
   const handleOnClick = (e: MouseEvent) => {
-    // setActive(!active);
-  };
+    if (!activeItem) {
+      pickItem(item)
+    }
+  }
+
+  const handleImgError = (e: any) => {
+    ;(e.target as HTMLImageElement).src = '/file.svg'
+  }
 
   return (
     <div
-      className={`${styles.item} ${active ? styles["item--is-active"] : ""} `}
+      className={`${styles.item} ${activeItem && activeItem.id === id && !locked ? 'hidden' : ''}`}
       style={{
-        left: !active ? position.left : activePosition.left,
-        top: !active ? position.top : activePosition.top,
+        left: typeof locked !== 'undefined' && locked === true ? 0 : position.left,
+        top: typeof locked !== 'undefined' && locked === true ? 0 : position.top,
         height: size.height,
         width: size.width,
       }}
       onClick={(e) => {
-        handleOnClick(e);
+        handleOnClick(e)
       }}
     >
-      <div className={className}></div>
+      <div className="absolute w-2/3 h-2/3 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <img onError={(e) => handleImgError(e)} className="w-full h-full" src={`/items/${_id}_${uniqueName}.svg`} />
+      </div>
     </div>
-  );
+  )
 }
 
-export { ItemBase };
+export { ItemBase }

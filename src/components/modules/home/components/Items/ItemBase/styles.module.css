@@ -1,8 +1,27 @@
 .item {
-  @apply absolute;
+  @apply absolute bg-yellow-50 bg-opacity-5 cursor-pointer;
   z-index: 3;
+}
+
+.item:hover {
+  @apply bg-opacity-20;
+}
+
+.item:hover img {
+  transform-style: preserve-3d;
+  animation: spin 1s 0s linear infinite;
 }
 
 .item--is-active {
   z-index: 1;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate3d(0, 1, 0, 0);
+  }
+
+  100% {
+    transform: rotate3d(0, 1, 0, 360deg);
+  }
 }
