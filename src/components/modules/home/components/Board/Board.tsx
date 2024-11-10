@@ -8,11 +8,12 @@ function Board() {
   const { activeItem, pickItem, items, update } = useBoardStore()
   const { put } = useInventory(items)
 
-  const handleOnClick = (e: MouseEvent, y: number, x: number) => {
+  const handleOnClick = (_e: MouseEvent, y: number, x: number) => {
     if (activeItem && activeItem.x === x && activeItem.y) {
       pickItem(null)
     } else if (activeItem) {
       const { data, error } = put(activeItem, x, y)
+      console.log(data, error)
 
       if (error) {
         toast.error(error)

@@ -1,7 +1,7 @@
 'use client'
 
 import { useItem } from '@/hooks'
-import { MouseEvent } from 'react'
+import type { SyntheticEvent } from 'react'
 import styles from './styles.module.css'
 import type { Item } from '@/constants/items'
 import { useBoardStore } from '@/stores'
@@ -12,7 +12,7 @@ interface Props {
 }
 
 function ItemBase({ item, locked }: Props) {
-  const { x, y, width, height, uniqueName, _id, id } = item
+  const { x, y, width, height, _id, id, name } = item
   const { activeItem, pickItem } = useBoardStore()
   const { position, size } = useItem({
     x,
@@ -21,13 +21,15 @@ function ItemBase({ item, locked }: Props) {
     height: height || 3,
   })
 
-  const handleOnClick = (e: MouseEvent) => {
+  const handleOnClick = () => {
     if (!activeItem) {
       pickItem(item)
+    } else {
+      console.log(item, activeItem)
     }
   }
 
-  const handleImgError = (e: any) => {
+  const handleImgError = (e: SyntheticEvent<HTMLImageElement>) => {
     ;(e.target as HTMLImageElement).src = '/file.svg'
   }
 
@@ -40,12 +42,12 @@ function ItemBase({ item, locked }: Props) {
         height: size.height,
         width: size.width,
       }}
-      onClick={(e) => {
-        handleOnClick(e)
+      onClick={() => {
+        handleOnClick()
       }}
     >
       <div className="absolute w-2/3 h-2/3 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        <img onError={(e) => handleImgError(e)} className="w-full h-full" src={`/items/${_id}_${uniqueName}.svg`} />
+        <img alt={name} onError={(e) => handleImgError(e)} className="w-full h-full" src={`/items/Item${_id}.svg`} />
       </div>
     </div>
   )

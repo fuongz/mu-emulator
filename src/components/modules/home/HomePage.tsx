@@ -5,7 +5,7 @@ import { Board } from './components/Board/Board'
 import { useInventory } from '@/hooks'
 import { toast } from 'sonner'
 import { ItemBase } from './components/Items/ItemBase/ItemBase'
-import { useCallback, useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { useMouse } from 'react-use'
 
 function HomePage() {
@@ -14,7 +14,7 @@ function HomePage() {
 
   const playgroundRef = useRef(null)
   const activeItemRef = useRef(null)
-  const { docX, docY, posX, posY, elX, elY, elW, elH } = useMouse(playgroundRef)
+  const { elX, elY } = useMouse(playgroundRef)
 
   const handleGenerateRandomItem = () => {
     const { data, error } = random()

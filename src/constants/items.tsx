@@ -7,58 +7,60 @@ export type Item = {
   height: number
   quantity: number
   name: string
-  uniqueName: string
-  className?: any
+  className?: string | null | undefined
   vectors?: Array<string>
 }
+
+export const JEWEL_IDS: Array<number> = []
 
 export const ITEMS: Array<Item> = [
   {
     _id: 1,
     width: 1,
     height: 1,
-    name: 'Jewel of Chaos',
-    uniqueName: 'jewel_of_chaos',
+    name: 'JEWEL_OF_CHAOS',
     quantity: 1,
   },
   {
     _id: 2,
     width: 1,
     height: 1,
-    name: 'Jewel of Bless',
-    uniqueName: 'jewel_of_bless',
+    name: 'JEWEL_OF_BLESS',
     quantity: 1,
   },
   {
     _id: 3,
     width: 1,
     height: 1,
-    name: 'Jewel of Soul',
-    uniqueName: 'jewel_of_soul',
+    name: 'JEWEL_OF_SOUL',
     quantity: 1,
   },
   {
     _id: 4,
     width: 1,
     height: 1,
-    name: 'Jewel of Life',
-    uniqueName: 'jewel_of_life',
+    name: 'JEWEL_OF_LIFE',
     quantity: 1,
   },
   {
     _id: 5,
     width: 1,
     height: 1,
-    name: 'Jewel of Guardian',
-    uniqueName: 'jewel_of_guardian',
+    name: 'JEWEL_OF_GUARDIAN',
     quantity: 1,
   },
   {
     _id: 6,
     width: 1,
     height: 1,
-    name: 'Jewel of Harmony',
-    uniqueName: 'jewel_of_harmony',
+    name: 'JEWEL_OF_HARMONY',
+    quantity: 1,
+  },
+  {
+    _id: 7,
+    width: 1,
+    height: 3,
+    name: 'SWORD_OF_DESTRUCTION',
     quantity: 1,
   },
 ]

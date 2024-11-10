@@ -1,8 +1,7 @@
+import { CONFIGS } from '@/constants/configs'
 import { Item, ITEMS } from '@/constants/items'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { v7 } from 'uuid'
-
-const GRID_COUNT = 8
 
 const useInventory = (initialItems: Array<Item> = []) => {
   const boardItems = useMemo<Array<Item>>(() => {
@@ -16,8 +15,8 @@ const useInventory = (initialItems: Array<Item> = []) => {
   const emptyPositions = useMemo<{ positions: Array<{ x: number; y: number }>; vectors: Array<string> }>(() => {
     const emptyPositions = []
     const emptyPositionVectors = []
-    for (let j = 0; j < GRID_COUNT; j++) {
-      for (let i = 0; i < GRID_COUNT; i++) {
+    for (let j = 0; j < CONFIGS.GRID_COUNT; j++) {
+      for (let i = 0; i < CONFIGS.GRID_COUNT; i++) {
         if (!filledPositions.includes(`${i}:${j}`)) {
           emptyPositions.push({
             x: i,
@@ -29,36 +28,17 @@ const useInventory = (initialItems: Array<Item> = []) => {
     }
 
     return { positions: emptyPositions, vectors: emptyPositionVectors }
-  }, [initialItems, filledPositions])
+  }, [filledPositions])
 
   const isValidVector = (item: Item) => {
     if (typeof item.x === 'undefined' || typeof item.y === 'undefined') return false
-    let positions: Array<string> = []
+    const positions: Array<string> = []
     ;[...Array(item.width)].forEach((_, i) =>
       [...Array(item.height)].forEach((_, j) => {
         positions.push(`${typeof item.x !== 'undefined' ? item.x + i : 0}:${typeof item.y !== 'undefined' ? item.y + j : 0}`)
       })
     )
     return positions.every((pos) => emptyPositions.vectors.includes(pos)) ? positions : null
-  }
-
-  const getValidSpace = (item: Item) => {
-    let validItem = null
-
-    for (let i = 0; i < emptyPositions.vectors.length; i++) {
-      const [x, y] = emptyPositions.vectors[i].split(':')
-      const hasSlot = isValidVector({ ...item, x: parseInt(x), y: parseInt(y) })
-      if (!validItem && hasSlot) {
-        validItem = {
-          ...item,
-          x: parseInt(x),
-          y: parseInt(y),
-          vectors: hasSlot,
-        }
-        break
-      }
-    }
-    return validItem
   }
 
   const randomItem = () => {
