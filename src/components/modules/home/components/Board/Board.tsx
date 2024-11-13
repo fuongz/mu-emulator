@@ -1,8 +1,10 @@
-import { Fragment, MouseEvent } from 'react'
-import styles from './style.module.css'
-import { useBoardStore } from '@/stores'
-import { useInventory } from '@/hooks'
-import { toast } from 'sonner'
+import React from "react"
+
+import { Fragment, MouseEvent } from "react"
+import styles from "./style.module.css"
+import { useBoardStore } from "@/stores"
+import { useInventory } from "@/hooks"
+import { toast } from "sonner"
 
 function Board() {
   const { activeItem, pickItem, items, update } = useBoardStore()
@@ -13,8 +15,6 @@ function Board() {
       pickItem(null)
     } else if (activeItem) {
       const { data, error } = put(activeItem, x, y)
-      console.log(data, error)
-
       if (error) {
         toast.error(error)
       }
@@ -28,7 +28,11 @@ function Board() {
   return [...Array(8)].map((_, i: number) => (
     <Fragment key={i}>
       {[...Array(8)].map((_, j) => (
-        <div key={`board-item-${i}-${j}`} className={styles.boardItem} onClick={(e) => handleOnClick(e, i, j)} />
+        <div
+          key={`board-item-${i}-${j}`}
+          className={styles.boardItem}
+          onClick={(e) => handleOnClick(e, i, j)}
+        />
       ))}
     </Fragment>
   ))

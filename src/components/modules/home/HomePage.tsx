@@ -1,12 +1,14 @@
-'use client'
+"use client"
 
-import { useBoardStore } from '@/stores'
-import { Board } from './components/Board/Board'
-import { useInventory } from '@/hooks'
-import { toast } from 'sonner'
-import { ItemBase } from './components/Items/ItemBase/ItemBase'
-import { useRef } from 'react'
-import { useMouse } from 'react-use'
+import React from "react"
+
+import { useBoardStore } from "@/stores"
+import { Board } from "./components/Board/Board"
+import { useInventory } from "@/hooks"
+import { toast } from "sonner"
+import { useRef } from "react"
+import { useMouse } from "react-use"
+import { ItemBase } from "./components/Items/ItemBase/ItemBase"
 
 function HomePage() {
   const { items, activeItem, append, reset } = useBoardStore()
@@ -17,7 +19,7 @@ function HomePage() {
   const { elX, elY } = useMouse(playgroundRef)
 
   const handleGenerateRandomItem = () => {
-    const { data, error } = random()
+    const { data, error } = random([2, 3, 7])
     if (error) {
       toast.error(error)
     }
@@ -33,10 +35,10 @@ function HomePage() {
           <div
             ref={activeItemRef}
             style={{
-              position: 'absolute',
+              position: "absolute",
               left: `${elX}px`,
               top: `${elY}px`,
-              pointerEvents: 'none',
+              pointerEvents: "none",
             }}
             className="absolute"
           >
@@ -49,7 +51,8 @@ function HomePage() {
         <div className="w-[508px] mx-auto">
           <div id="board" className="grid grid-cols-8 gap-1 relative">
             <Board />
-            {boardItems.length > 0 && boardItems.map((item) => <ItemBase key={item.id} item={item} />)}
+            {boardItems.length > 0 &&
+              boardItems.map((item) => <ItemBase key={item.id} item={item} />)}
           </div>
 
           <div className="z-50 relative">

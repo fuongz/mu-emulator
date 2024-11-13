@@ -1,6 +1,6 @@
-import type { Item } from '@/constants/items'
-import { create } from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
+import type { Item } from "@/constants/items"
+import { create } from "zustand"
+import { devtools, persist } from "zustand/middleware"
 
 interface IBoardStore {
   items: Array<Item> | []
@@ -10,6 +10,7 @@ interface IBoardStore {
   reset: () => void
   pickItem: (item: Item | null) => void
   update: (item: Item) => void
+  remove: (item: Item) => void
 }
 
 const useBoardStore = create(
@@ -31,6 +32,16 @@ const useBoardStore = create(
           }))
         },
 
+        remove: (item) => {
+          set((state) => ({
+            items: state.items.filter((i) => i.id !== item.id),
+            activeItem:
+              state.activeItem && state.activeItem.id === item.id
+                ? null
+                : state.activeItem,
+          }))
+        },
+
         update: (item) => {
           set((state) => ({
             items: [...state.items.filter((i) => i.id !== item.id), item],
@@ -44,10 +55,10 @@ const useBoardStore = create(
         },
       }),
       {
-        name: 'board-store',
-      }
-    )
-  )
+        name: "board-store",
+      },
+    ),
+  ),
 )
 
 export { useBoardStore }
